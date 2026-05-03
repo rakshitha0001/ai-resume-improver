@@ -1,9 +1,13 @@
 This project is an AI-based Resume Improver that enhances basic resume content into professional, ATS-friendly, and impact-oriented statements using prompt engineering techniques.
+
 Improves resume content using structured prompts
 Tone customization (Formal / Strong Impact)
 Demonstrates prompt engineering concepts
+
 Tech Stack: Python, OpenAI API
+
 How to Run
+
 Install dependencies:
 pip install openai
 Set your API key:
