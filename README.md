@@ -10,10 +10,15 @@ How to Run
 
 Install dependencies:
 pip install openai
+
 Set your API key:
+
 export OPENAI_API_KEY="your_key" 
+
 setx OPENAI_API_KEY "your_key"
+
 Run:
+
 python app.py
 
 Example
