@@ -1,59 +1,54 @@
-from openai import OpenAI
+import requests
 
-
-import os
-client = OpenAI(api_key=os.getenv("OPENAI_API_KEY"))
-
+API_KEY = "YOUR_API_KEY"
 
 def improve_resume(text, tone):
     if tone == "2":
-        tone_instruction = "Make it highly impactful with strong achievements and powerful action verbs."
+        tone_instruction = "Make it highly impactful with strong achievements and action verbs."
     else:
-        tone_instruction = "Keep it formal, clean, and professional."
+        tone_instruction = "Keep it formal, clear, and professional."
 
     prompt = f"""
-You are an expert HR recruiter with 10+ years of experience.
+You are an expert HR recruiter.
 
-TASK:
-Improve the resume content below.
+Improve the resume content below:
 
-INPUT:
 {text}
 
-INSTRUCTIONS:
+Instructions:
 - Make it ATS-friendly
 - Use strong action verbs
-- Keep it concise and clear
+- Keep it concise
 - Highlight impact and results
-- Avoid unnecessary words
-- Use bullet-style phrasing if needed
 - {tone_instruction}
 
-OUTPUT:
-Return only the improved version.
+Return only improved version.
 """
 
-    
-    response = client.chat.completions.create(
-        model="gpt-4o-mini",
-        messages=[
-            {"role": "system", "content": "You are a helpful HR assistant."},
-            {"role": "user", "content": prompt}
-        ]
+    response = requests.post(
+        url="https://openrouter.ai/api/v1/chat/completions",
+        headers={
+            "Authorization": f"Bearer {API_KEY}",
+            "Content-Type": "application/json"
+        },
+        json={
+            "model": "openai/gpt-3.5-turbo",
+            "messages": [{"role": "user", "content": prompt}]
+        }
     )
 
-    return response.choices[0].message.content
-
+    data = response.json()
+    return data["choices"][0]["message"]["content"]
 
 
 def main():
-    print("=== AI Resume Improver ===\n")
+    print("--- AI Resume Improver ---\n")
 
     text = input("Enter your resume content:\n")
 
     print("\nChoose Tone:")
     print("1. Formal & Professional")
-    print("2. Strong Impact (Recommended)")
+    print("2. Strong Impact")
 
     tone = input("Enter choice (1 or 2): ")
 
